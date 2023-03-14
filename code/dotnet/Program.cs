@@ -6,7 +6,7 @@ byte[] bytes;
 int number;
 bool exists;
 
-#region Connect and PING
+#region Connect
 
 // one any one one of these
 var redis = ConnectionMultiplexer.Connect($"localhost:6379,password=");
@@ -14,11 +14,18 @@ var redis = ConnectionMultiplexer.Connect($"localhost:6379,password=");
 // these are cheap, make as many as you want
 var db = redis.GetDatabase();
 
+#endregion
+
+
+# region PING
+
 // ping the database
 TimeSpan pong = db.Ping();
 Console.WriteLine($"PING returned in {pong.TotalMilliseconds}ms");
+waitForKey();
 
 #endregion
+
 
 #region SET and GET a String
 
@@ -26,8 +33,10 @@ db.StringSet("simple:string", "foo");
 s = db.StringGet("simple:string")!;
 
 Console.WriteLine($"SET and GET simple:string returned => { s }");
+waitForKey();
 
 #endregion
+
 
 #region SET and GET a String containing binary data
 
@@ -35,8 +44,10 @@ db.StringSet("binary:string", new byte[] { 1, 2, 3 });
 bytes = db.StringGet("binary:string")!;
 
 Console.WriteLine($"SET and GET binary:string returned => [ { string.Join(", ", bytes) } ]");
+waitForKey();
 
 #endregion
+
 
 #region SET, GET, and modify a String containing an integer
 
@@ -55,7 +66,10 @@ number = (int) db.StringGet("number:string")!;
 
 Console.WriteLine($"INCR, INCRBY, and GET number:string returned => { number }");
 
+waitForKey();
+
 #endregion
+
 
 #region EXISTS
 
@@ -67,7 +81,10 @@ Console.WriteLine($"EXISTS simple:string returned => { exists }");
 exists = db.KeyExists("missing:string");
 Console.WriteLine($"EXISTS missing:string returned => { exists }");
 
+waitForKey();
+
 #endregion
+
 
 #region DEL (really UNLINK)
 
@@ -76,14 +93,25 @@ db.KeyDelete("binary:string");
 exists = db.KeyExists("binary:string");
 
 Console.WriteLine($"DEL and EXISTS binary:string returned => { exists }");
+waitForKey();
 
 #endregion
+
 
 #region EXPIRE
 
 // expire a key
 db.KeyExpire("number:string", TimeSpan.FromSeconds(10));
 var ttl = db.KeyTimeToLive("number:string")!.Value;
+
 Console.WriteLine($"EXPIRE and TTL number:string returned => { ttl.TotalMilliseconds }ms");
+waitForKey();
 
 #endregion
+
+
+void waitForKey() {
+  Console.WriteLine("...press the any key...");
+  Console.ReadKey();
+  Console.WriteLine();
+}
