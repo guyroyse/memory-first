@@ -1,5 +1,6 @@
 package com.redis.guyroyse.memoryfirst;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,47 +20,61 @@ public class App
 
   private static JedisPooled jedis;
 
-  public static void main( String[] args )
+  public static void main( String[] args ) throws IOException
   {
-    // connect to Redis
+
+    // #region Connect to Redis
     jedis = new JedisPooled("localhost", 6379);
+    // #endregion
 
-    stringTest();
-    binaryTest();
-
-    jedis.close();
-  }
-
-  private static void stringTest() {
-    // LPUSH some values
+    // #region LPUSH some values
     values.stream().forEach(s -> jedis.lpush("some:list", s));
     log("LPUSH some:list %s", listToString(values));
+    waitForEnter();
+    // #endregion
 
-    // LINDEX the middle values
+    // #region LINDEX the middle values
     String value = jedis.lindex("some:list", 1);
     log("LINDEX some:list 1 returned => %s", value);
+    waitForEnter();
+    // #endregion
 
-    // LRANGE to get all the values
+    // #region LRANGE to get all the values
     List<String> strings = jedis.lrange("some:list", 0, -1);
     log("LRANGE some:list 0 -1 returned => %s", listToString(strings));
+    waitForEnter();
+    // #endregion
 
-    // RPOP those values
+    // #region RPOP those values
     IntStream.range(0, 3).forEach(i -> {
       String popped = jedis.rpop("some:list");
       log("RPOP some:list returned => %s", popped);
     });
-  }
+    waitForEnter();
+    // #endregion
 
-  private static void binaryTest() {
-    // LPUSH some binary data
+    // #region LPUSH some binary data
     binaryValues.stream().forEach(bytes -> jedis.lpush("binary:list".getBytes(), bytes));
     log("LPUSH binary:list %s", listOfBytesToString(binaryValues));
+    waitForEnter();
+    // #endregion
 
-    // RPOP those values
+    // #region RPOP those values
     IntStream.range(0, 3).forEach(i -> {
       byte[] bytes = jedis.rpop("binary:list".getBytes());
       log("RPOP binary:list returned => %s", bytesToString(bytes));
     });
+    waitForEnter();
+    // #endregion
+
+    // #region Close out of Redis
+    jedis.close();
+    // #endregion
+  }
+
+  private static void waitForEnter() throws IOException {
+    System.out.println("...press the enter key...");
+    System.in.read();
   }
 
   private static void log(String s, Object ...args) {
