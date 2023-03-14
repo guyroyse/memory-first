@@ -3,5 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "author": "Guy Royse <guy@guyroyse.com> (http://guyroyse.com/)",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "redis": "^4.6.5"
+  }
 }
