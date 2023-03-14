@@ -1,0 +1,7 @@
+{
+  "name": "memory-first",
+  "version": "1.0.0",
+  "type": "module",
+  "author": "Guy Royse <guy@guyroyse.com> (http://guyroyse.com/)",
+  "private": true
+}
