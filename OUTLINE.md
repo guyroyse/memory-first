@@ -1,0 +1,84 @@
+# Memory First
+
+- **Introduction** (slides):
+	- Who is this Guy?
+	- What are we gonna talk about?
+- **What is Redis** (slides):
+	- It's a cache:
+		- Stores stuff in memory
+		- It's stupid fast
+	- It's a key value store:
+		- Stores stuff in memory *first*
+		- But it can be persisted, replicated, and clustered
+	- It's a gaint hash table that stores data structures:
+		- Overview of the data structures (the big slide showing all the types)
+		- What I like is that it stores stuff the way we use stuff in our code
+		- So we're gonna talk about four of them that we use in our code all the time:
+			- Strings, Lists, Hashes, and Sets
+	- It's extensible:
+		- You can write modules to add new data structures and commands
+		- We've written a few: notably Search, JSON, and Bloom
+- **Talking to Redis** (slides transitioning to demo):
+	- You send it commands over a socket, it responds (slides)
+	- The RESP protocol (slide and then transition to demo)
+	- Talking to Redis redis-cli (demo)
+	- Talking to Redis using RedisInsight (demo)
+	- Talking to Redis from code: C#, Java, JavaScript, Python
+- **Strings from C#**:
+	- What it is: a block of memory
+	- SET and GET
+	- They're actually BLOBs: demo from the command line
+	- But sometimes they're integers: INCR, DECR, INCRBY, DECRBY
+	- Managing keys
+		- Existence: EXISTS
+		- Listing keys: KEYS vs SCAN
+		- Removing keys
+			- The most dangerous command: FLUSHALL
+			- DEL vs UNLINK
+		- Expiring keys: EXPIRE and TTL
+	- Doing it from C#
+		- StackExchange.Redis
+		- Connecting to Redis
+		- Sending commands
+- **Lists from Java**:
+	- What it is: a doubly-linked list
+	- PUSH and POP
+	- Stores strings so actually BLOBs (or integers)
+	- Get a single idem from the list with LINDEX
+	- Get a slice of the list with LRANGE
+	- Fancier PUSH and POP with LMOVE
+		- LMOVE to yourself
+	- Doing it from Java
+		- Jedis
+		- Connecting to Redis
+		- Sending commands
+- **Hashes from JavaScript**:
+	- What it is: a hash table
+	- HSET, HGET, and HDEL
+	  Getting moar: HMGET, HGETALL
+	- Stores strings so actually BLOBs (or integers)
+		- HINCRBY
+	- Removing with HDEL
+	- Doing it from JavaScript
+		- Node Redis
+		- Connecting to Redis
+		- Sending commands
+- **Sets from Python**:
+	- What is it: a set
+	- SADD, SMEMBERS, SREM
+	- Stores Strings too, so acutally BLOBs
+	- Membership with SISMEMBER
+	- Cardinality with SCARD
+	- Unions, Intersections, and Differences with SUNION, SINTER, SDIFF
+	- Doing it from Python
+		- redis-py
+		- Connecting
+		- Sending commands
+- **Summary** (slides):
+	- We looked at what:
+		- How to talk to Redis
+		- Some of the things we can store in Redis
+	- How to get all this stuff:
+		- Redis Stack
+		- Redis Insight
+- **Thanks!**
