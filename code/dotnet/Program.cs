@@ -8,7 +8,7 @@ bool exists;
 
 #region Connect
 
-// one any one one of these
+// one and only one of these
 var redis = ConnectionMultiplexer.Connect($"localhost:6379,password=");
 
 // these are cheap, make as many as you want
