@@ -1,0 +1,21 @@
+{
+  "name": "Elvis Presley",
+  "age": 42,
+  "address": {
+    "street": "306 Elvis Presley Dr",
+    "city": "Tupelo",
+    "state": "MS",
+    "zip": "38804"
+  },
+  "phoneNumbers": [
+    {
+      "mobile": false,
+      "number": "+1 601 555 1234"
+    },
+    {
+      "mobile": true,
+      "number": "+1 601 555 5678"
+    }
+  ],
+  "email": "elvis@kingofrockandroll.com"
+}
